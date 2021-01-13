@@ -1,0 +1,6 @@
+1. Start a server with PostgreSQL
+  i. Launch terminal
+  ii. d exec -it LiferayBD sh
+  iii. /usr/bin/psql -U postgres postgres
+  
+  
