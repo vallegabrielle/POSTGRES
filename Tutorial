@@ -1,14 +1,14 @@
-# PostgreSQL
+Postgre
 
-Start a MySQL server.
+Start a Postgre server.
 
 Launch Terminator.
 
-Type d run --name LiferayBD -e POSTGRES_PASSWORD=madeofdust -p 3309:3309 -d postgres
+Type d run --name postDB -e POSTGRES_PASSWORD=madeofdust -p 3309:3309 -d postgres
 
-This runs a Docker image called LiferayBD in the background.
+This runs a Docker image called postDB in the background.
 
-Type d logs LiferayBD to see its startup logs.
+Type d logs postDB to see its startup logs.
 
 Type telnet localhost 3307.
 
@@ -25,56 +25,42 @@ Connected to localhost.
 Escape character is '^]'.
 J
 8.0.22	Wxb;bO�C(=k~|Mcaching_sha2_password
-This command works because LiferayBD is running on port 3309.
+This command works because postDB is running on port 3309.
 
 Type <CONTROL+]> and then type quit to exit out of telnet on port 3309.
 
-Type d stop LiferayBD.
+Type d stop postDB.
 
-Type telnet localhost 3309. This command fails because postgres is stopped.
+Type telnet localhost 3309. This command fails because postgre is stopped.
 
-Type d rm LiferayBD.
+Type d rm postDB.
 
-Type d start LiferayBD. This command fails because we deleted the Docker container called LiferayBD.
+Type d start postDB. This command fails because we deleted the Docker container called postDB.
 
-Type d run --name LiferayBD -d -e LiferayBD_ROOT_PASSWORD=lovethepoor -p 3309:3309 postgres:8.0.22 to recreate the Docker container.
+Type d run --name postDB -d -e POSTGRES_ROOT_PASSWORD=lovethepoor -p 3309:3309 postgres:8.0.22 to recreate the Docker container.
 
-Type d exec -it LiferayBD mysql -uroot -p to run the postgres client that exists on the postgres server. Your password is lovethepoor.
+Type d exec -it postDB /usr/bin/psql -U postgres postgres to run the postgres client that exists on the postgres server. Your password is lovethepoor.
 
-The command can be split into two parts. The first part, d exec -it LiferayBD, tells Docker to execute a command on the LiferayBD container. The second part, mysql -uroot -p, is the command that is run on the container itself.
-Type show databases;. This lists the databases available in MySQL.
+The command can be split into two parts. The first part, d exec -it postDB, tells Docker to execute a command on the postDB container. The second part, /usr/bin/psql -U postgres postgres, is the command that is run on the container itself.
+Type show databases;. This lists the databases available in Postgres.
 
-+--------------------+
-| Database           |
-+--------------------+
-| information_schema |
-| mysql              |
-| performance_schema |
-| sys                |
-+--------------------+
-Type use mysql;.
 
-Type show tables;. This lists the tables in the mysql database. Note that the MySQL server happens to have a database within it called mysql. This is the mysql database and not the the mysql client referenced in d exec -it galatians mysql -uroot -p.
 
-Type use information_schema;.
 
-Type show tables;.
+Type \c postgres;.
+
+Type \dt;. This lists the tables in the postgres database.
 
 Type quit to exit the container.
 
-Type d stop galatians and d start galatians to restart the container. This step is not necessary but is written here so you know how to restart a container based on its name.
+Type d stop postDB and d start postDB to restart the container. This step is not necessary but is written here so you know how to restart a container based on its name.
 
-Connect to a MySQL server with a MySQL client over the network.
+Connect to a postgres server with a postgres client over the network.
 
 Get your IP.
 
-Type d run --rm -it mysql:8.0.22 mysql -h192.168.xxx.xxx -uroot -p. Replace 192.168.xxx.xxx with your IP.
+Type d run --rm -it postgres:8.0.22 postgres -h192.168.xxx.xxx /usr/bin/psql -U postgres postgres. Replace 192.168.xxx.xxx with your IP.
 
 Type quit to exit the container.
-
-1. Start a server with PostgreSQL
-  i. Launch terminal
-  ii. d exec -it LiferayBD sh
-  iii. /usr/bin/psql -U postgres postgres
   
   
